@@ -39,7 +39,6 @@ public class SwitchNodeSelectableDotPart extends AbstractContentPart<SelectableD
         // updating the visuals texts and position
 
     	visual.setSelection( selected );
-		visual.setPosition( position );
 //    	visual.setPosition(new Point( 70, 20 + position*20 ));
 //    	visual.setTranslateX( getParent().getVisual().getTranslateX() );
 //    	visual.setTranslateY( getParent().getVisual().getTranslateY() );
@@ -54,6 +53,7 @@ public class SwitchNodeSelectableDotPart extends AbstractContentPart<SelectableD
 //        // perform layout pass so that visual is resized to its preferred size
 //        visual.getParent().layout();
 //
+		
     	visual.setTranslateX(position.x);
     	visual.setTranslateY(position.y);
 //        visual.setTranslateX(getParent().getVisual().getTranslateX());

@@ -46,11 +46,4 @@ public class SelectableDotVisual extends Region {
 		dot.setVisible(selection);
 	}
 
-	public void setPosition(Point position) {
-		circle.setTranslateX(position.x);
-		circle.setTranslateY(position.y);
-		dot.setTranslateX(position.x);
-		dot.setTranslateY(position.y);
-	}
-
 }

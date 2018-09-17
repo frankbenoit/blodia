@@ -82,10 +82,10 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		dot1.setPosition(position.getTranslated(bgnd.getRelPosDot1()));
 		dot2.setPosition(position.getTranslated(bgnd.getRelPosDot2()));
 		
-		System.out.printf("this: %s%n", getVisual().getLayoutBounds());
-		System.out.printf("bgnd: %s%n", bgnd.getVisual().getLayoutBounds());
-		System.out.printf("Dot1: %s%n", dot1.getVisual().getLayoutBounds());
-		System.out.printf("Dot2: %s%n", dot2.getVisual().getLayoutBounds());
+//		System.out.printf("this: %s%n", getVisual().getLayoutBounds());
+//		System.out.printf("bgnd: %s%n", bgnd.getVisual().getLayoutBounds());
+//		System.out.printf("Dot1: %s%n", dot1.getVisual().getLayoutBounds());
+//		System.out.printf("Dot2: %s%n", dot2.getVisual().getLayoutBounds());
 
 	}
 
