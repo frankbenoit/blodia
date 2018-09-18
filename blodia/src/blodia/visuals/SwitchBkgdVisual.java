@@ -14,14 +14,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
 
-public class SwitchNodeVisual extends Region {
+public class SwitchBkgdVisual extends Region {
 
     private GeometryNode<RoundedRectangle> shape;
 	private GeometryNode<Line> connectionLine;
 	private static final double LINE_WIDTH = 2.0;
 	private final Point relPosDot1 = new Point( 70, 20 );
 	private final Point relPosDot2 = new Point( 70, 40 );
-    public SwitchNodeVisual() {
+    public SwitchBkgdVisual() {
         // create background shape
         shape = new GeometryNode<>(new RoundedRectangle(0, 0, 90, 60, 5, 5));
         shape.setFill(Color.LIGHTGREEN);
@@ -66,9 +66,10 @@ public class SwitchNodeVisual extends Region {
 //        return shape;
 //    }
 //
-	public void setSelection(int selection) {
-		double y = selection == 0 ? 20 : 40;
-		connectionLine.getGeometry().setP2(new Point(70, y));
+	public void setSelection(boolean selection) {
+		double y = selection ? 40 : 20;
+    	System.out.println("sel "+y);
+		connectionLine.getGeometry().setY2(y);
 	}
 
 	public Point getRelPosDot1() {

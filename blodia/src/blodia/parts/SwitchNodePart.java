@@ -13,49 +13,61 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 import blodia.model.AbstractModelItem;
+import blodia.model.SwitchNodeBkgd;
+import blodia.model.SwitchNodeSelect;
+import blodia.visuals.SwitchBkgdVisual;
 import blodia.model.SwitchNode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.Region;
 
 public class SwitchNodePart extends AbstractContentPart<Group> {    
 
-	private SwitchNodeBackgroundPart bgnd;
-	private SwitchNodeSelectableDotPart dot1;
-	private SwitchNodeSelectableDotPart dot2;
-	private Point position = new Point( 0, 0 );
+	private SwitchNodeSelect dot1 = new SwitchNodeSelect();
+	private SwitchNodeSelect dot2 = new SwitchNodeSelect();
+	private SwitchNodeBkgd bkgd = new SwitchNodeBkgd();
 	
-	public SwitchNodePart() {
-		
-		bgnd = new SwitchNodeBackgroundPart();
-		dot1 = new SwitchNodeSelectableDotPart();
-		dot2 = new SwitchNodeSelectableDotPart();
-		addChild(bgnd);
-		addChild(dot1);
-		addChild(dot2);
-	
-//		contentProperty().addListener(new ChangeListener<Object>() {
-//		    public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-//				refreshVisual();
-//				getChildrenUnmodifiable().forEach(vp -> vp.refreshVisual());
-//		    }
-//		});
-	}
+	private SwitchBkgdNodePart bkgdPart;
+	private SwitchSelectNodePart dot1Part;
+	private SwitchSelectNodePart dot2Part;
 	
 	@Override
 	protected void doAddChildVisual(IVisualPart<? extends Node> child, int index) {
 		getVisual().getChildren().add(child.getVisual());
-	}
-
-	@Override
-	protected void doAddContentChild(Object contentChild, int index) {
-		if (contentChild instanceof AbstractModelItem) {
-//			getContent().addChildElement((AbstractModelItem) contentChild, index);
-		} else {
-			throw new IllegalArgumentException("contentChild has invalid type: " + contentChild.getClass());
+		SwitchNode content = getContent();
+		Point position = content.getPosition();
+		switch( index ) {
+		case 0: 
+			bkgdPart = (SwitchBkgdNodePart) child;
+			setTranslate(position, bkgdPart.getVisual());
+			bkgdPart.getVisual().setOnMouseClicked( event -> {
+	        	System.out.printf("mouse bkgd %s%n", event );
+	        	content.setSelection( content.getSelection() + 1 );
+			});
+			break;
+		case 1: 
+			dot1Part = (SwitchSelectNodePart) child;
+			setTranslate(position.getTranslated(bkgdPart.getRelPosDot1()).getTranslated(dot1Part.getOffset()), dot1Part.getVisual());
+			dot1Part.getVisual().setOnMouseClicked( event -> {
+	        	System.out.printf("mouse sel1 %s%n", event );
+	        	content.setSelection( 0 );
+			});
+			break;
+		case 2: 
+			dot2Part = (SwitchSelectNodePart) child; 
+			setTranslate(position.getTranslated(bkgdPart.getRelPosDot2()).getTranslated(dot2Part.getOffset()), dot2Part.getVisual());
+			dot2Part.getVisual().setOnMouseClicked( event -> {
+	        	System.out.printf("mouse sel2 %s%n", event );
+	        	content.setSelection( 1 );
+			});
+			break;
+		default:
+			break;
 		}
 	}
+
 
 	@Override
 	protected Group doCreateVisual() {
@@ -69,24 +81,18 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 
 	@Override
 	protected List<? extends Object> doGetContentChildren() {
-		return Lists.newArrayList();
+		return Lists.newArrayList( bkgd, dot1, dot2 );
 	}
 
 	@Override
 	protected void doRefreshVisual(Group visual) {
 		// no refreshing necessary, just a Group
-		if( getContent() == null ) return;
-		position = new Point( 20, 20 + 100 * getContent().getPosition());
-		bgnd.setPosition(position);
-		bgnd.setSelection(getContent().getSelection());
-		dot1.setPosition(position.getTranslated(bgnd.getRelPosDot1()));
-		dot2.setPosition(position.getTranslated(bgnd.getRelPosDot2()));
-		
-//		System.out.printf("this: %s%n", getVisual().getLayoutBounds());
-//		System.out.printf("bgnd: %s%n", bgnd.getVisual().getLayoutBounds());
-//		System.out.printf("Dot1: %s%n", dot1.getVisual().getLayoutBounds());
-//		System.out.printf("Dot2: %s%n", dot2.getVisual().getLayoutBounds());
+	}
 
+
+	private void setTranslate(Point position, Region vis) {
+		vis.setTranslateX(position.x);
+		vis.setTranslateY(position.y);
 	}
 
 	@Override
@@ -103,6 +109,21 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		}
 	}
 
+	@Override
+	public void setContent(Object content) {
+		super.setContent(content);
+		getContent().addPropertyChangeListener( ev -> {
+			if( SwitchNode.PROP_SELECTION.equals(ev.getPropertyName())) {
+				bkgd.setSelection( 0 < (int)ev.getNewValue() );
+				dot1.setSelection( 0 == ((int)ev.getNewValue()) % 2 );
+				dot2.setSelection( 1 == ((int)ev.getNewValue()) % 2 );
+				bkgdPart.refreshVisual();
+				dot1Part.refreshVisual();
+				dot2Part.refreshVisual();
+			}
+		});
+	}
+	
 	@Override
 	public SwitchNode getContent() {
 		return (SwitchNode) super.getContent();

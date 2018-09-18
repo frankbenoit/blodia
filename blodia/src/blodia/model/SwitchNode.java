@@ -1,14 +1,16 @@
 package blodia.model;
 
+import org.eclipse.gef.geometry.planar.Point;
+
 public class SwitchNode extends AbstractModelItem {
 
     public static final String PROP_SELECTION = "selection";
     public static final String PROP_POSITION = "position";
 
     private int selection;
-	private int position;
+	private Point position;
     
-    public SwitchNode(int selection, int position) {
+    public SwitchNode(int selection, Point position) {
     	this.selection = selection;
 		this.position = position;
 	}
@@ -17,20 +19,20 @@ public class SwitchNode extends AbstractModelItem {
         return selection;
     }
 
-    public void setBounds(int newValue) {
+    public void setSelection(int newValue) {
     	int oldValue = selection;
     	selection = newValue;
         pcs.firePropertyChange(PROP_SELECTION, oldValue, newValue );
     }
 
-    public int getPosition() {
+    public Point getPosition() {
     	return position;
     }
     
-    public void setPosition(int newValue) {
-    	int oldValue = position;
+    public void setPosition(Point newValue) {
+    	Point oldValue = position;
     	position = newValue;
     	pcs.firePropertyChange(PROP_POSITION, oldValue, newValue );
     }
-    
+
 } 

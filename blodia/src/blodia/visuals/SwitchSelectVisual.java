@@ -7,28 +7,32 @@ import org.eclipse.gef.geometry.planar.Ellipse;
 import org.eclipse.gef.geometry.planar.Point;
 import org.eclipse.gef.geometry.planar.Rectangle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
 
-public class SelectableDotVisual extends Region {
+public class SwitchSelectVisual extends Region {
 	
 	private static final double LINE_WIDTH = 2.0;
-	private static final double RADIUS     = 4.0;
+	public static final double RADIUS     = 4.0;
 	
 	private GeometryNode<Ellipse> circle;
 	private GeometryNode<Ellipse> dot;
 	
 	
-    public SelectableDotVisual() {
+    public SwitchSelectVisual() {
         
-    	circle = new GeometryNode<>( new Ellipse( -RADIUS, -RADIUS, 2*RADIUS, 2*RADIUS ));
+    	circle = new GeometryNode<>( new Ellipse( 0, 0, 2*RADIUS, 2*RADIUS ));
         circle.setStrokeWidth(LINE_WIDTH);
         circle.setStrokeType(StrokeType.INSIDE);
 
-        dot = new GeometryNode<>( new Ellipse( -1, -1, 2, 2 ));
+        dot = new GeometryNode<>( new Ellipse( RADIUS-1, RADIUS-1, 2, 2 ));
         dot.setStrokeWidth(LINE_WIDTH+2);
         dot.setStroke(Color.RED);
         dot.setStrokeType(StrokeType.CENTERED);

@@ -10,8 +10,9 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import blodia.model.Model;
-import blodia.model.SelectableDotNode;
+import blodia.model.SwitchNodeSelect;
 import blodia.model.SwitchNode;
+import blodia.model.SwitchNodeBkgd;
 import javafx.scene.Node;
 
 /**
@@ -30,17 +31,19 @@ public class PartsFactory implements IContentPartFactory {
             throw new IllegalArgumentException("Content must not be null!");
         }
 
+    	System.out.println("PartFactory: "+content.getClass().toString());
+
         if (content instanceof Model) {
-        	System.out.println("Model");
             return injector.getInstance(ModelPart.class);
         }
         else if (content instanceof SwitchNode) {
-        	System.out.println("SwitchNode");
         	return injector.getInstance(SwitchNodePart.class);
         }
-        else if (content instanceof SelectableDotNode) {
-        	System.out.println("SelectableDotNode");
-        	return injector.getInstance(SwitchNodeSelectableDotPart.class);
+        else if (content instanceof SwitchNodeSelect) {
+        	return injector.getInstance(SwitchSelectNodePart.class);
+        }
+        else if (content instanceof SwitchNodeBkgd) {
+        	return injector.getInstance(SwitchBkgdNodePart.class);
         }
         else {
             throw new IllegalArgumentException("Unknown content type <" + content.getClass().getName() + ">");

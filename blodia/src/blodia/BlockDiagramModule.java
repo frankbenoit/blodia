@@ -8,12 +8,16 @@ import org.eclipse.gef.mvc.fx.behaviors.HoverIntentBehavior;
 import org.eclipse.gef.mvc.fx.handlers.FocusAndSelectOnClickHandler;
 import org.eclipse.gef.mvc.fx.handlers.HoverOnHoverHandler;
 import org.eclipse.gef.mvc.fx.parts.DefaultHoverFeedbackPartFactory;
+import org.eclipse.gef.mvc.fx.parts.DefaultSelectionFeedbackPartFactory;
+import org.eclipse.gef.mvc.fx.providers.ShapeBoundsProvider;
 import org.eclipse.gef.mvc.fx.providers.ShapeOutlineProvider;
 
 import com.google.inject.multibindings.MapBinder;
 
 import blodia.parts.PartsFactory;
+import blodia.parts.SwitchBkgdNodePart;
 import blodia.parts.SwitchNodePart;
+import blodia.parts.SwitchSelectNodePart;
 
 /**
  * The Guice Module to configure our parts and behaviors.
@@ -44,9 +48,9 @@ public class BlockDiagramModule extends MvcFxModule {
 //		// bind a geometry provider, which is used in our anchor provider
 //		adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(ShapeOutlineProvider.class);
 //
-		// provides a hover feedback to the shape, used by the HoverBehavior
-		AdapterKey<?> role = AdapterKey.role(DefaultHoverFeedbackPartFactory.HOVER_FEEDBACK_GEOMETRY_PROVIDER);
-		adapterMapBinder.addBinding(role).to(ShapeOutlineProvider.class);
+//		// provides a hover feedback to the shape, used by the HoverBehavior
+//		AdapterKey<?> role = AdapterKey.role(DefaultHoverFeedbackPartFactory.HOVER_FEEDBACK_GEOMETRY_PROVIDER);
+//		adapterMapBinder.addBinding(role).to(ShapeOutlineProvider.class);
 //
 //		// provides a selection feedback to the shape
 //		role = AdapterKey.role(DefaultSelectionFeedbackPartFactory.SELECTION_FEEDBACK_GEOMETRY_PROVIDER);
@@ -78,8 +82,29 @@ public class BlockDiagramModule extends MvcFxModule {
         super.configure();
 
         bindSwitchNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchNodePart.class));
+        bindSwitchSelectNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchSelectNodePart.class));
+        bindSwitchBkgdNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchBkgdNodePart.class));
     }
     
+	private void bindSwitchBkgdNodePartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {
+		// provides a hover feedback to the shape, used by the HoverBehavior
+		adapterMapBinder.addBinding(AdapterKey.role(DefaultHoverFeedbackPartFactory.HOVER_FEEDBACK_GEOMETRY_PROVIDER))
+		.to(ShapeOutlineProvider.class);
+
+		// provides a selection feedback to the shape
+		adapterMapBinder.addBinding(AdapterKey.role(DefaultSelectionFeedbackPartFactory.SELECTION_FEEDBACK_GEOMETRY_PROVIDER))
+		.to(ShapeBoundsProvider.class);
+
+	}
+
+
+	private void bindSwitchSelectNodePartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {
+		// provides a hover feedback to the shape, used by the HoverBehavior
+		AdapterKey<?> role = AdapterKey.role(DefaultHoverFeedbackPartFactory.HOVER_FEEDBACK_GEOMETRY_PROVIDER);
+		adapterMapBinder.addBinding(role).to(ShapeOutlineProvider.class);
+	}
+
+
 	@Override
 	protected void bindAbstractContentPartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {
 		super.bindAbstractContentPartAdapters(adapterMapBinder);

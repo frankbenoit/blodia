@@ -1,6 +1,7 @@
 package blodia;
 
 import org.eclipse.gef.common.adapt.AdapterKey;
+import org.eclipse.gef.geometry.planar.Point;
 import org.eclipse.gef.mvc.fx.domain.HistoricizingDomain;
 import org.eclipse.gef.mvc.fx.domain.IDomain;
 import org.eclipse.gef.mvc.fx.viewer.IViewer;
@@ -44,8 +45,8 @@ public class BlockDiagram extends Application {
      */
     private void populateViewerContents() {
         Model model = new Model();
-        model.addChildElement(new SwitchNode(0, 0));
-        model.addChildElement(new SwitchNode(1, 1));
+        model.addChildElement(new SwitchNode(0, new Point( 20, 20)));
+        model.addChildElement(new SwitchNode(1, new Point( 20, 90)));
 
         IViewer viewer = getContentViewer();
         viewer.getContents().setAll(model);
