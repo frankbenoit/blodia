@@ -32,14 +32,12 @@ public class SwitchBkgdVisual extends Region {
         GeometryNode<Line> line3 = newLine( relPosDot2.x + 2.5, relPosDot2.y, 90.0, relPosDot2.y );
 
         GeometryNode<Ellipse> point1 = newDot(20, 30);
-//        GeometryNode<Ellipse> point2 = newDot(70, 20);
-//        GeometryNode<Ellipse> point3 = newDot(70, 40);
         
         connectionLine = new GeometryNode<>( new Line(20, 30, 70, 20));
         connectionLine.setStrokeWidth(LINE_WIDTH);
         connectionLine.setStrokeLineCap(StrokeLineCap.ROUND );
         
-        Group group = new Group(shape, line1, line2, line3, point1, /*point2, point3, */connectionLine );
+        Group group = new Group(shape, line1, line2, line3, point1, /*point2, point3, */ connectionLine );
 		getChildren().addAll(group);
     }
 
@@ -69,7 +67,9 @@ public class SwitchBkgdVisual extends Region {
 	public void setSelection(boolean selection) {
 		double y = selection ? 40 : 20;
     	System.out.println("sel "+y);
-		connectionLine.getGeometry().setY2(y);
+		Line line = connectionLine.getGeometry().getCopy();
+		line.setY2(y);
+		connectionLine.geometryProperty().set(line);
 	}
 
 	public Point getRelPosDot1() {
