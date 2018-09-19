@@ -50,4 +50,8 @@ public class SwitchSelectVisual extends Region {
 		dot.setVisible(selection);
 	}
 
+	public void setFilled(boolean filled) {
+		circle.setFill( filled ? Color.BLACK : null );
+	}
+
 }

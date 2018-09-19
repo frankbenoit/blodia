@@ -71,6 +71,10 @@ public class SwitchSelectNodePart extends AbstractContentPart<SwitchSelectVisual
 		refreshVisual();
 	}
 
+	public void setFilled(boolean filled) {
+		getVisual().setFilled(filled);
+	}
+
 	@Override
 	public void setContent(Object content) {
 		super.setContent(content);

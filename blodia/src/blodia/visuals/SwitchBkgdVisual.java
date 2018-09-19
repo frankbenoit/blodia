@@ -19,6 +19,7 @@ public class SwitchBkgdVisual extends Region {
     private GeometryNode<RoundedRectangle> shape;
 	private GeometryNode<Line> connectionLine;
 	private static final double LINE_WIDTH = 2.0;
+	private final Point relPosDotX = new Point( 20, 30 );
 	private final Point relPosDot1 = new Point( 70, 20 );
 	private final Point relPosDot2 = new Point( 70, 40 );
     public SwitchBkgdVisual() {
@@ -31,13 +32,11 @@ public class SwitchBkgdVisual extends Region {
         GeometryNode<Line> line2 = newLine( relPosDot1.x + 2.5, relPosDot1.y, 90.0, relPosDot1.y );
         GeometryNode<Line> line3 = newLine( relPosDot2.x + 2.5, relPosDot2.y, 90.0, relPosDot2.y );
 
-        GeometryNode<Ellipse> point1 = newDot(20, 30);
-        
         connectionLine = new GeometryNode<>( new Line(20, 30, 70, 20));
         connectionLine.setStrokeWidth(LINE_WIDTH);
         connectionLine.setStrokeLineCap(StrokeLineCap.ROUND );
         
-        Group group = new Group(shape, line1, line2, line3, point1, /*point2, point3, */ connectionLine );
+        Group group = new Group(shape, line1, line2, line3, connectionLine );
 		getChildren().addAll(group);
     }
 
@@ -48,36 +47,20 @@ public class SwitchBkgdVisual extends Region {
     	return line1;
     }
     
-    private GeometryNode<Ellipse> newDot( double x1, double y1 ) {
-    	GeometryNode<Ellipse> dot = new GeometryNode<>( new Ellipse( x1-3, y1-3, 6, 6 ));
-        dot.setStrokeWidth(LINE_WIDTH);
-        dot.setStrokeType(StrokeType.CENTERED);
-    	return dot;
-    }
-
-    @Override
-    public Orientation getContentBias() {
-        return Orientation.HORIZONTAL;
-    }
-
-//    public GeometryNode<?> getGeometryNode() {
-//        return shape;
-//    }
-//
-	public void setSelection(boolean selection) {
-		double y = selection ? 40 : 20;
-    	System.out.println("sel "+y);
-		Line line = connectionLine.getGeometry().getCopy();
-		line.setY2(y);
-		connectionLine.geometryProperty().set(line);
+	public void setSelection(int selection) {
+		connectionLine.setVisible( selection >= 0 );
+		if( selection >= 0 ) {
+			double y = 20 + selection * 20;
+			Line line = connectionLine.getGeometry().getCopy();
+			line.setY2(y);
+			connectionLine.setGeometry(line);
+		}
 	}
 
-	public Point getRelPosDot1() {
-		return relPosDot1;
+	public Point getRelPosDotX(int idx) {
+		if( idx == 0 ) return relPosDot1;
+		if( idx == 1 ) return relPosDot2;
+		return relPosDotX;
 	}
 
-	public Point getRelPosDot2() {
-		return relPosDot2;
-	}
-	
 }

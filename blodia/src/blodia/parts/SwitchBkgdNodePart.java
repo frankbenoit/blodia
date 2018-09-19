@@ -50,23 +50,8 @@ public class SwitchBkgdNodePart extends AbstractContentPart<SwitchBkgdVisual> {
     
     @Override
     protected void doRefreshVisual(SwitchBkgdVisual visual) {
-        // updating the visuals texts and position
-
-        Rectangle rec = new Rectangle( position.x, position.y, 10, 10 );
-
-        boolean selection = getContent().getSelection();
-
+        int selection = getContent().getSelection();
 		visual.setSelection(selection);
-//        visual.setDescription(node.getDescription());
-//        visual.setColor(node.getColor());
-
-//        visual.setPrefSize(rec.getWidth(), rec.getHeight());
-//        // perform layout pass so that visual is resized to its preferred size
-//        visual.getParent().layout();
-
-//        visual.setTranslateX(rec.getX());
-//        visual.setTranslateY(rec.getY());
-        
     }
 
 	public void setPosition(Point position) {
@@ -74,13 +59,10 @@ public class SwitchBkgdNodePart extends AbstractContentPart<SwitchBkgdVisual> {
 		refreshVisual();
 	}
 
-	public Point getRelPosDot1() {
-		return getVisual().getRelPosDot1();
+	public Point getRelPosDot(int idx) {
+		return getVisual().getRelPosDotX(idx);
 	}
 
-	public Point getRelPosDot2() {
-		return getVisual().getRelPosDot2();
-	}
 	@Override
 	public void setContent(Object content) {
 		super.setContent(content);

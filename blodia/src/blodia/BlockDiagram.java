@@ -47,6 +47,7 @@ public class BlockDiagram extends Application {
         Model model = new Model();
         model.addChildElement(new SwitchNode(0, new Point( 20, 20)));
         model.addChildElement(new SwitchNode(1, new Point( 20, 90)));
+        model.addChildElement(new SwitchNode(-1, new Point( 20, 160)));
 
         IViewer viewer = getContentViewer();
         viewer.getContents().setAll(model);

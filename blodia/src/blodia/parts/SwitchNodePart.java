@@ -25,11 +25,13 @@ import javafx.scene.layout.Region;
 
 public class SwitchNodePart extends AbstractContentPart<Group> {    
 
-	private SwitchNodeSelect dot1 = new SwitchNodeSelect();
-	private SwitchNodeSelect dot2 = new SwitchNodeSelect();
+	private SwitchNodeSelect dotX = new SwitchNodeSelect(-1);
+	private SwitchNodeSelect dot1 = new SwitchNodeSelect(0);
+	private SwitchNodeSelect dot2 = new SwitchNodeSelect(1);
 	private SwitchNodeBkgd bkgd = new SwitchNodeBkgd();
 	
 	private SwitchBkgdNodePart bkgdPart;
+	private SwitchSelectNodePart dotXPart;
 	private SwitchSelectNodePart dot1Part;
 	private SwitchSelectNodePart dot2Part;
 	
@@ -44,28 +46,34 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 			setTranslate(position, bkgdPart.getVisual());
 			bkgdPart.getVisual().setOnMouseClicked( event -> {
 	        	System.out.printf("mouse bkgd %s%n", event );
-	        	content.setSelection( content.getSelection() + 1 );
+	        	content.setSelection( ( content.getSelection() + 1 ) % 2 );
 			});
 			break;
 		case 1: 
-			dot1Part = (SwitchSelectNodePart) child;
-			setTranslate(position.getTranslated(bkgdPart.getRelPosDot1()).getTranslated(dot1Part.getOffset()), dot1Part.getVisual());
-			dot1Part.getVisual().setOnMouseClicked( event -> {
-	        	System.out.printf("mouse sel1 %s%n", event );
-	        	content.setSelection( 0 );
-			});
+			dotXPart = configureSelectionDot(child, content, -1);
+			dotXPart.setFilled(true);
 			break;
 		case 2: 
-			dot2Part = (SwitchSelectNodePart) child; 
-			setTranslate(position.getTranslated(bkgdPart.getRelPosDot2()).getTranslated(dot2Part.getOffset()), dot2Part.getVisual());
-			dot2Part.getVisual().setOnMouseClicked( event -> {
-	        	System.out.printf("mouse sel2 %s%n", event );
-	        	content.setSelection( 1 );
-			});
+			dot1Part = configureSelectionDot(child, content, 0);
+			break;
+		case 3: 
+			dot2Part = configureSelectionDot(child, content, 1);
 			break;
 		default:
 			break;
 		}
+	}
+
+
+	private SwitchSelectNodePart configureSelectionDot(IVisualPart<? extends Node> child, SwitchNode content, final int idx) {
+		Point position = content.getPosition();
+		SwitchSelectNodePart dot = (SwitchSelectNodePart) child;
+		setTranslate(position.getTranslated(bkgdPart.getRelPosDot(idx)).getTranslated(dot.getOffset()), dot.getVisual());
+		dot.getVisual().setOnMouseClicked( event -> {
+			System.out.printf("mouse sel%s %s%n", idx, event );
+			content.setSelection( idx );
+		});
+		return dot;
 	}
 
 
@@ -81,7 +89,12 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 
 	@Override
 	protected List<? extends Object> doGetContentChildren() {
-		return Lists.newArrayList( bkgd, dot1, dot2 );
+		int selection = getContent().getSelection();
+		bkgd.setSelection(selection);
+		dotX.setSelection(selection);
+		dot1.setSelection(selection);
+		dot2.setSelection(selection);
+		return Lists.newArrayList( bkgd, dotX, dot1, dot2 );
 	}
 
 	@Override
@@ -114,10 +127,13 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		super.setContent(content);
 		getContent().addPropertyChangeListener( ev -> {
 			if( SwitchNode.PROP_SELECTION.equals(ev.getPropertyName())) {
-				bkgd.setSelection( 0 < (int)ev.getNewValue() );
-				dot1.setSelection( 0 == ((int)ev.getNewValue()) % 2 );
-				dot2.setSelection( 1 == ((int)ev.getNewValue()) % 2 );
+				int selection = (int)ev.getNewValue();
+				bkgd.setSelection( selection );
+				dotX.setSelection( selection );
+				dot1.setSelection( selection );
+				dot2.setSelection( selection );
 				bkgdPart.refreshVisual();
+				dotXPart.refreshVisual();
 				dot1Part.refreshVisual();
 				dot2Part.refreshVisual();
 			}
