@@ -4,15 +4,12 @@ package blodia.visuals;
 import org.eclipse.gef.fx.nodes.GeometryNode;
 import org.eclipse.gef.geometry.planar.Line;
 import org.eclipse.gef.geometry.planar.Point;
-import org.eclipse.gef.geometry.planar.Ellipse;
 import org.eclipse.gef.geometry.planar.RoundedRectangle;
 
-import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
 
 public class SwitchBkgdVisual extends Region {
 

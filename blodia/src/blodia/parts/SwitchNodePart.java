@@ -2,9 +2,7 @@ package blodia.parts;
 
 import java.util.List;
 
-import org.eclipse.gef.geometry.convert.fx.FX2Geometry;
 import org.eclipse.gef.geometry.planar.Point;
-import org.eclipse.gef.geometry.planar.Rectangle;
 import org.eclipse.gef.mvc.fx.parts.AbstractContentPart;
 import org.eclipse.gef.mvc.fx.parts.IVisualPart;
 
@@ -13,12 +11,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 import blodia.model.AbstractModelItem;
+import blodia.model.SwitchNode;
 import blodia.model.SwitchNodeBkgd;
 import blodia.model.SwitchNodeSelect;
-import blodia.visuals.SwitchBkgdVisual;
-import blodia.model.SwitchNode;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;

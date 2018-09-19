@@ -2,17 +2,10 @@ package blodia.visuals;
 
 
 import org.eclipse.gef.fx.nodes.GeometryNode;
-import org.eclipse.gef.geometry.convert.fx.FX2Geometry;
 import org.eclipse.gef.geometry.planar.Ellipse;
-import org.eclipse.gef.geometry.planar.Point;
-import org.eclipse.gef.geometry.planar.Rectangle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;
