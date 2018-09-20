@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeType;
 
 public class SwitchBkgdVisual extends Region {
 
@@ -24,17 +25,20 @@ public class SwitchBkgdVisual extends Region {
         shape = new GeometryNode<>(new RoundedRectangle(0, 0, 90, 60, 5, 5));
         shape.setFill(Color.LIGHTGREEN);
         shape.setStroke(Color.BLACK);
+        shape.setStrokeWidth(1.01);
+        shape.setStrokeType(StrokeType.INSIDE);
         
-        GeometryNode<Line> line1 = newLine(  0.0, 30.0, 17.0, 30.0 );
-        GeometryNode<Line> line2 = newLine( relPosDot1.x + 2.5, relPosDot1.y, 90.0, relPosDot1.y );
-        GeometryNode<Line> line3 = newLine( relPosDot2.x + 2.5, relPosDot2.y, 90.0, relPosDot2.y );
+        // Keep 1.0 away from the border to avoid to trigger the bug with wrong line dimensions
+        GeometryNode<Line> line1 = newLine( 1.0, 30.0, 17.0, 30.0 );
+        GeometryNode<Line> line2 = newLine( relPosDot1.x + 2.5, relPosDot1.y, 89.0, relPosDot1.y );
+        GeometryNode<Line> line3 = newLine( relPosDot2.x + 2.5, relPosDot2.y, 89.0, relPosDot2.y );
 
         connectionLine = new GeometryNode<>( new Line(20, 30, 70, 20));
         connectionLine.setStrokeWidth(LINE_WIDTH);
         connectionLine.setStrokeLineCap(StrokeLineCap.ROUND );
         
         Group group = new Group(shape, line1, line2, line3, connectionLine );
-		getChildren().addAll(group);
+        getChildren().addAll(group);
     }
 
     private GeometryNode<Line> newLine( double x1, double y1, double x2, double y2 ) {

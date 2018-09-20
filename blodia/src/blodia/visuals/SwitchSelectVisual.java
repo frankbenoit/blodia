@@ -16,7 +16,6 @@ public class SwitchSelectVisual extends Region {
 	public static final double RADIUS     = 4.0;
 	
 	private GeometryNode<Ellipse> circle;
-	private GeometryNode<Ellipse> dot;
 	
 	
     public SwitchSelectVisual() {
@@ -25,23 +24,13 @@ public class SwitchSelectVisual extends Region {
         circle.setStrokeWidth(LINE_WIDTH);
         circle.setStrokeType(StrokeType.INSIDE);
 
-        dot = new GeometryNode<>( new Ellipse( RADIUS-1, RADIUS-1, 2, 2 ));
-        dot.setStrokeWidth(LINE_WIDTH+2);
-        dot.setStroke(Color.RED);
-        dot.setStrokeType(StrokeType.CENTERED);
-        
-        Group group = new Group( circle, dot );
-		getChildren().addAll(group);
+		getChildren().addAll(circle);
     }
 
     @Override
     public Orientation getContentBias() {
         return Orientation.HORIZONTAL;
     }
-
-	public void setSelection(boolean selection) {
-		dot.setVisible(selection);
-	}
 
 	public void setFilled(boolean filled) {
 		circle.setFill( filled ? Color.BLACK : null );

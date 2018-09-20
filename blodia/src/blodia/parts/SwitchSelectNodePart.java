@@ -14,8 +14,6 @@ import blodia.visuals.SwitchSelectVisual;
 
 public class SwitchSelectNodePart extends AbstractContentPart<SwitchSelectVisual> {
 
-    private boolean selected;
-
 	public SwitchSelectNodePart() {
 	}
 
@@ -36,11 +34,6 @@ public class SwitchSelectNodePart extends AbstractContentPart<SwitchSelectVisual
 
 	@Override
     protected void doRefreshVisual(SwitchSelectVisual visual) {
-    	visual.setSelection( selected );
-    }
-
-    public void setSelected( boolean selected ) {
-		this.selected = selected;
     }
 
 	public void setFilled(boolean filled) {

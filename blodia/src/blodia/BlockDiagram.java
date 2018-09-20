@@ -10,6 +10,7 @@ import com.google.inject.Guice;
 
 import blodia.model.Model;
 import blodia.model.SwitchNode;
+import blodia.model.Wire;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -45,9 +46,16 @@ public class BlockDiagram extends Application {
      */
     private void populateViewerContents() {
         Model model = new Model();
-        model.addChildElement(new SwitchNode(0, new Point( 20, 20)));
-        model.addChildElement(new SwitchNode(1, new Point( 20, 90)));
-        model.addChildElement(new SwitchNode(-1, new Point( 20, 160)));
+        SwitchNode node1 = new SwitchNode( 0, new Point(  20, 20 ));
+        SwitchNode node2 = new SwitchNode( 1, new Point(  20, 90 ));
+        SwitchNode node3 = new SwitchNode(-1, new Point( 160, 20 ));
+
+        Wire wire1 = new Wire( node1.getConnector(0), node3.getConnectorSelector() );
+        wire1.addWayPoint( 100, 100 );
+        
+        model.addChildElement(node1);
+		model.addChildElement(node2);
+		model.addChildElement(node3);
 
         IViewer viewer = getContentViewer();
         viewer.getContents().setAll(model);

@@ -35,4 +35,12 @@ public class SwitchNode extends AbstractModelItem {
     	pcs.firePropertyChange(PROP_POSITION, oldValue, newValue );
     }
 
+	public IConnector getConnectorSelector() {
+		return null;
+	}
+
+	public IConnector getConnector(int index) {
+		return null;
+	}
+
 } 
