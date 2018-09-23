@@ -35,6 +35,7 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		getVisual().getChildren().add(child.getVisual());
 		SwitchNode content = getContent();
 		Point position = content.getPosition();
+		AnchoragePart ap;
 		switch( index ) {
 		case 0: 
 			bkgdPart = (SwitchBkgdNodePart) child;
@@ -54,11 +55,25 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		case 3: 
 			dot2Part = configureSelectionDot(child, content, 1);
 			break;
+		case 4:
+			ap = (AnchoragePart) child;
+			ap.getVisual().setTranslateX( 0+position.x);
+			ap.getVisual().setTranslateY(30+position.y);
+			break;
+		case 5:
+			ap = (AnchoragePart) child;
+			ap.getVisual().setTranslateX(90+position.x);
+			ap.getVisual().setTranslateY(20+position.y);
+			break;
+		case 6:
+			ap = (AnchoragePart) child;
+			ap.getVisual().setTranslateX(90+position.x);
+			ap.getVisual().setTranslateY(40+position.y);
+			break;
 		default:
 			break;
 		}
 	}
-
 
 	private SwitchSelectNodePart configureSelectionDot(IVisualPart<? extends Node> child, SwitchNode content, final int idx) {
 		Point position = content.getPosition();
@@ -84,12 +99,13 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 
 	@Override
 	protected List<? extends Object> doGetContentChildren() {
-		int selection = getContent().getSelection();
+		SwitchNode cnt = getContent();
+		int selection = cnt.getSelection();
 		bkgd.setSelection(selection);
 		dotX.setSelection(selection);
 		dot1.setSelection(selection);
 		dot2.setSelection(selection);
-		return Lists.newArrayList( bkgd, dotX, dot1, dot2 );
+		return Lists.newArrayList( bkgd, dotX, dot1, dot2, cnt.getConnectorSelector(), cnt.getConnector(0), cnt.getConnector(1) );
 	}
 
 	@Override
@@ -103,6 +119,9 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 		vis.setTranslateY(position.y);
 	}
 
+	@Override
+	protected void doAttachToAnchorageVisual(IVisualPart<? extends Node> anchorage, String role) {
+	}
 	@Override
 	protected void doRemoveChildVisual(IVisualPart<? extends Node> child, int index) {
 		getVisual().getChildren().remove(child.getVisual());
@@ -139,4 +158,6 @@ public class SwitchNodePart extends AbstractContentPart<Group> {
 	public SwitchNode getContent() {
 		return (SwitchNode) super.getContent();
 	}
+
+
 }

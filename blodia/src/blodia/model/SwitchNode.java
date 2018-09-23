@@ -9,6 +9,10 @@ public class SwitchNode extends AbstractModelItem {
 
     private int selection;
 	private Point position;
+	
+	private final Anchorage anchorageSelector = new Anchorage( this, "SEL" );
+	private final Anchorage anchorageSel0 = new Anchorage( this, "SEL_0" );
+	private final Anchorage anchorageSel1 = new Anchorage( this, "SEL_1" );
     
     public SwitchNode(int selection, Point position) {
     	this.selection = selection;
@@ -35,11 +39,15 @@ public class SwitchNode extends AbstractModelItem {
     	pcs.firePropertyChange(PROP_POSITION, oldValue, newValue );
     }
 
-	public IConnector getConnectorSelector() {
-		return null;
+	public Anchorage getConnectorSelector() {
+		return anchorageSelector;
 	}
 
-	public IConnector getConnector(int index) {
+	public Anchorage getConnector(int index) {
+		if( index == 0 )
+			return anchorageSel0;
+		if( index == 1 )
+			return anchorageSel1;
 		return null;
 	}
 

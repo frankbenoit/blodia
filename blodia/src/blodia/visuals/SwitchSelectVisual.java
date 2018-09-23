@@ -5,7 +5,6 @@ import org.eclipse.gef.fx.nodes.GeometryNode;
 import org.eclipse.gef.geometry.planar.Ellipse;
 
 import javafx.geometry.Orientation;
-import javafx.scene.Group;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeType;

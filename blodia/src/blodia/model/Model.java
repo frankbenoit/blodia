@@ -28,4 +28,5 @@ public class Model extends AbstractModelItem {
         childElements.remove(node);
         pcs.firePropertyChange(PROP_CHILD_ELEMENTS, node, null);
     }
+
 }

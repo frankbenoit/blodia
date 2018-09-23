@@ -13,8 +13,10 @@ import org.eclipse.gef.mvc.fx.providers.ShapeOutlineProvider;
 
 import com.google.inject.multibindings.MapBinder;
 
+import blodia.parts.AnchoragePart;
 import blodia.parts.PartsFactory;
 import blodia.parts.SwitchBkgdNodePart;
+import blodia.parts.AnchorageAnchorProvider;
 import blodia.parts.SwitchNodePart;
 import blodia.parts.SwitchSelectNodePart;
 
@@ -30,16 +32,21 @@ public class BlockDiagramModule extends MvcFxModule {
 	}
 
 
+	private void bindAnchoragePartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {
+        adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(AnchorageAnchorProvider.class);
+	}
+
+
     /**
      *
      * @param adapterMapBinder
      */
     protected void bindSwitchNodePartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {
         // bind anchor provider used to create the connection anchors
-        //adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(SimpleMindMapAnchorProvider.class);
+//        adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(SwitchNodeAnchorProvider.class);
 
         // bind a geometry provider, which is used in our anchor provider
-        //adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(ShapeOutlineProvider.class);
+        adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(ShapeOutlineProvider.class);
 
 //		// bind anchor provider used to create the connection anchors
 //		adapterMapBinder.addBinding(AdapterKey.defaultRole()).to(SimpleMindMapAnchorProvider.class);
@@ -80,9 +87,10 @@ public class BlockDiagramModule extends MvcFxModule {
         // start the default configuration
         super.configure();
 
-        bindSwitchNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchNodePart.class));
+        bindAnchoragePartAdapters(       AdapterMaps.getAdapterMapBinder(binder(), AnchoragePart.class));
+        bindSwitchNodePartAdapters(      AdapterMaps.getAdapterMapBinder(binder(), SwitchNodePart.class));
         bindSwitchSelectNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchSelectNodePart.class));
-        bindSwitchBkgdNodePartAdapters(AdapterMaps.getAdapterMapBinder(binder(), SwitchBkgdNodePart.class));
+        bindSwitchBkgdNodePartAdapters(  AdapterMaps.getAdapterMapBinder(binder(), SwitchBkgdNodePart.class));
     }
     
 	private void bindSwitchBkgdNodePartAdapters(MapBinder<AdapterKey<?>, Object> adapterMapBinder) {

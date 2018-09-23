@@ -9,10 +9,13 @@ import org.eclipse.gef.mvc.fx.parts.IContentPartFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+import blodia.model.Anchorage;
 import blodia.model.Model;
-import blodia.model.SwitchNodeSelect;
 import blodia.model.SwitchNode;
 import blodia.model.SwitchNodeBkgd;
+import blodia.model.SwitchNodeSelect;
+import blodia.model.Wire;
+import blodia.model.WirePoint;
 import javafx.scene.Node;
 
 /**
@@ -44,6 +47,15 @@ public class PartsFactory implements IContentPartFactory {
         }
         else if (content instanceof SwitchNodeBkgd) {
         	return injector.getInstance(SwitchBkgdNodePart.class);
+        }
+        else if (content instanceof Wire) {
+        	return injector.getInstance(WirePart.class);
+        }
+        else if (content instanceof WirePoint) {
+        	return injector.getInstance(WirePointPart.class);
+        }
+        else if (content instanceof Anchorage) {
+        	return injector.getInstance(AnchoragePart.class);
         }
         else {
             throw new IllegalArgumentException("Unknown content type <" + content.getClass().getName() + ">");
