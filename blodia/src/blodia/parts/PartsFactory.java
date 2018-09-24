@@ -11,6 +11,7 @@ import com.google.inject.Injector;
 
 import blodia.model.Anchorage;
 import blodia.model.Model;
+import blodia.model.Port;
 import blodia.model.SwitchNode;
 import blodia.model.SwitchNodeBkgd;
 import blodia.model.SwitchNodeSelect;
@@ -50,6 +51,9 @@ public class PartsFactory implements IContentPartFactory {
         }
         else if (content instanceof Wire) {
         	return injector.getInstance(WirePart.class);
+        }
+        else if (content instanceof Port) {
+        	return injector.getInstance(PortPart.class);
         }
         else if (content instanceof WirePoint) {
         	return injector.getInstance(WirePointPart.class);

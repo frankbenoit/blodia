@@ -10,6 +10,8 @@ import org.eclipse.gef.mvc.fx.viewer.IViewer;
 import com.google.inject.Guice;
 
 import blodia.model.Model;
+import blodia.model.Orientation;
+import blodia.model.Port;
 import blodia.model.SwitchNode;
 import blodia.model.Wire;
 import blodia.model.WirePoint;
@@ -70,12 +72,13 @@ public class BlockDiagram extends Application {
         model.addChildElement(node1);
 		model.addChildElement(node2);
 		model.addChildElement(node3);
+		model.addChildElement(new Port( 140, 200, Orientation.LEFT, "Text"));
 
         IViewer viewer = getContentViewer();
         viewer.getContents().setAll(model);
         InfiniteCanvas c = (InfiniteCanvas) viewer.getCanvas();
-        c.setScaleX(2);
-        c.setScaleY(2);
+        //c.setScaleX(2);
+        //c.setScaleY(2);
         c.setVerticalScrollOffset(150);
         c.setHorizontalScrollOffset(150);
         
